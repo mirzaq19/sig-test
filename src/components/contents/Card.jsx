@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoDocumentAttachOutline } from "react-icons/io5";
 import { AiOutlineEdit } from "react-icons/ai";
-import { categoryType } from "@/utilities/categoryType";
+import categoryString from "@/utilities/categoryType";
 import { currencyFormat } from "@/utilities/currencyFormat";
 
 const Card = ({
@@ -53,7 +53,7 @@ const Card = ({
         </div>
         <div className="text-center">
           <h4>{name}</h4>
-          <p className="text-gray-400 text-sm">{categoryType[type].title}</p>
+          <p className="text-gray-400 text-sm">{categoryString(type)}</p>
         </div>
         <hr className="border-0 border-b border-gray-400 my-3" />
         <p className="font-light">

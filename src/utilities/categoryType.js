@@ -48,3 +48,10 @@ export const categoryType = {
     category_code: "D",
   },
 };
+
+const categoryString = (type) => {
+  const category = categoryType[type];
+  return category ? category.title : "Unknown";
+};
+
+export default categoryString;
