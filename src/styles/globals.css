@@ -5,6 +5,18 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --tw-clr-dark: 43 43 43;
+    --tw-clr-light: 236 236 236;
+    --tw-clr-accent-peach: 241 0 130;
+    --tw-clr-accent-grape: 151 0 222;
+    --tw-clr-secondary: 221 221 221;
+  }
+
+  ::selection {
+    background-color: rgba(var(--tw-clr-accent-peach) / 0.2);
+  }
+
   /* #region  /**=========== Default Typography =========== */
   h1 {
     @apply text-2xl font-bold md:text-3xl;
