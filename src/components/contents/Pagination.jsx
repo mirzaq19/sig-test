@@ -47,6 +47,18 @@ const Pagination = ({
     pickHandler(value);
   };
 
+  const handlePrev = () => {
+    if (currentPage === 1) return;
+    if (totalItems === 0) return;
+    prevHandler();
+  };
+
+  const handleNext = () => {
+    if (currentPage === totalPage) return;
+    if (totalItems === 0) return;
+    nextHandler();
+  };
+
   const changeItemsPerPageHandler = (e) => {
     itemsPerPageHandler(parseInt(e.target.value));
   };
@@ -77,11 +89,11 @@ const Pagination = ({
       </div>
       <div className="flex gap-1">
         <button
-          onClick={prevHandler}
+          onClick={handlePrev}
           disabled={currentPage === 1}
           className={clsx(
             "px-3 py-1 text-sm border font-semibold rounded-lg transition-colors duration-200",
-            currentPage === 1
+            currentPage === 1 || totalItems === 0
               ? "text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
               : "text-white border-white hover:bg-white hover:text-dark"
           )}
@@ -103,11 +115,11 @@ const Pagination = ({
           ))}
         </div>
         <button
-          onClick={nextHandler}
+          onClick={handleNext}
           disabled={currentPage === totalPage}
           className={clsx(
             "px-3 py-1 text-sm border font-semibold rounded-lg transition-colors duration-200",
-            currentPage === totalPage
+            currentPage === totalPage || totalItems === 0
               ? "text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
               : "text-white border-white hover:bg-white hover:text-dark"
           )}
