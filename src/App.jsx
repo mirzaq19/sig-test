@@ -5,9 +5,21 @@ import { getAllData } from "@/services/api";
 import CardList from "@/components/contents/CardList";
 import getDummyData from "@/utilities/dummydata";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
+import FilterBar from "./components/layouts/FilterBar";
 const App = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState({
+    category: "all",
+    approvalStatus: "all",
+    attachment: "all",
+    discount: "all",
+  });
+
+  const filterHandler = (e) => {
+    const { name, value } = e.target;
+    setFilter((prev) => ({ ...prev, [name]: value }));
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -27,13 +39,34 @@ const App = () => {
   //     });
   // }, []);
 
+  const itemsFiltered = items
+    .filter((item) => {
+      if (filter.category === "all") return true;
+      return item.type === filter.category;
+    })
+    .filter((item) => {
+      if (filter.approvalStatus === "all") return true;
+      return item.status === Number(filter.approvalStatus);
+    })
+    .filter((item) => {
+      if (filter.attachment === "all") return true;
+      return item.attachment === Number(filter.attachment);
+    })
+    .filter((item) => {
+      if (filter.discount === "all") return true;
+      if (filter.discount === "0") return item.discount === 0;
+      return item.discount > 0;
+    });
+
   return (
     <>
       <Navbar />
       <Container className="py-4">
         <h1 className="mb-12 text-center mt-4">Product List</h1>
+
+        <FilterBar filter={filter} filterHandler={filterHandler} />
         {!loading ? (
-          <CardList items={items} />
+          <CardList items={itemsFiltered} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
             <CardSkeleton />
