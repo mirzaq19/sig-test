@@ -5,7 +5,8 @@ import { getAllData } from "@/services/api";
 import CardList from "@/components/contents/CardList";
 import getDummyData from "@/utilities/dummydata";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
-import FilterBar from "./components/layouts/FilterBar";
+import FilterBar from "@/components/layouts/FilterBar";
+import SortBar from "@/components/layouts/SortBar";
 const App = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,10 +16,15 @@ const App = () => {
     attachment: "all",
     discount: "all",
   });
+  const [sort, setSort] = useState("asc");
 
   const filterHandler = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const sortHandler = (e) => {
+    setSort(e.target.value);
   };
 
   useEffect(() => {
@@ -58,6 +64,13 @@ const App = () => {
       return item.discount > 0;
     });
 
+  if (sort === "asc") {
+    itemsFiltered = itemsFiltered.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  if (sort === "desc") {
+    itemsFiltered = itemsFiltered.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
   return (
     <>
       <Navbar />
@@ -69,7 +82,7 @@ const App = () => {
           filter={filter}
           filterHandler={filterHandler}
         />
-
+        <SortBar className="mb-3" sort={sort} sortHandler={sortHandler} />
         {!loading ? (
           <CardList items={itemsFiltered} />
         ) : (
