@@ -39,10 +39,10 @@ const App = () => {
   //     });
   // }, []);
 
-  const itemsFiltered = items
+  let itemsFiltered = items
     .filter((item) => {
       if (filter.category === "all") return true;
-      return item.type === filter.category;
+      return item.type === Number(filter.category);
     })
     .filter((item) => {
       if (filter.approvalStatus === "all") return true;
@@ -64,7 +64,12 @@ const App = () => {
       <Container className="py-4">
         <h1 className="mb-12 text-center mt-4">Product List</h1>
 
-        <FilterBar filter={filter} filterHandler={filterHandler} />
+        <FilterBar
+          className="mb-3"
+          filter={filter}
+          filterHandler={filterHandler}
+        />
+
         {!loading ? (
           <CardList items={itemsFiltered} />
         ) : (
