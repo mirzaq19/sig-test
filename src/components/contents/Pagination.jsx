@@ -42,6 +42,8 @@ const Pagination = ({
   }
 
   const handlePick = (value) => {
+    if (value > totalPage || value < 1) pickHandler(1);
+    if (value === currentPage) return;
     pickHandler(value);
   };
 
