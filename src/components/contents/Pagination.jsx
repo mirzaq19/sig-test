@@ -78,9 +78,10 @@ const Pagination = ({
           onClick={prevHandler}
           disabled={currentPage === 1}
           className={clsx(
-            "px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200",
-            currentPage === 1 &&
-              "hover:bg-dark text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
+            "px-3 py-1 text-sm border font-semibold rounded-lg transition-colors duration-200",
+            currentPage === 1
+              ? "text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
+              : "text-white border-white hover:bg-white hover:text-dark"
           )}
         >
           Prev
@@ -103,9 +104,10 @@ const Pagination = ({
           onClick={nextHandler}
           disabled={currentPage === totalPage}
           className={clsx(
-            "px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200",
-            currentPage === totalPage &&
-              "hover:bg-dark text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
+            "px-3 py-1 text-sm border font-semibold rounded-lg transition-colors duration-200",
+            currentPage === totalPage
+              ? "text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
+              : "text-white border-white hover:bg-white hover:text-dark"
           )}
         >
           Next
