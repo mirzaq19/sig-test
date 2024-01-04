@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import { categoryType } from "@/utilities/categoryType";
 
 const FilterBar = ({ className, filter, filterHandler, ...rest }) => {
   return (
-    <div className={clsx("mb-6", className)} {...rest}>
+    <div className={className} {...rest}>
       <h4 className="mb-3">Filter :</h4>
       <div className="flex flex-wrap justify-between gap-3">
         <div className="w-full sm:w-fit flex flex-col sm:flex-row gap-2">
