@@ -31,7 +31,7 @@ const App = () => {
     <>
       <Navbar />
       <Container className="py-4">
-        <h1 className="mb-12 text-center mt-4">Daftar produk</h1>
+        <h1 className="mb-12 text-center mt-4">Product List</h1>
         {!loading ? (
           <CardList items={items} />
         ) : (
