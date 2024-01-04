@@ -3,7 +3,6 @@ import Container from "@/components/layouts/Container";
 import { useEffect, useState } from "react";
 import { getAllData } from "@/services/api";
 import CardList from "@/components/contents/CardList";
-import getDummyData from "@/utilities/dummydata";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
 const App = () => {
   const [items, setItems] = useState([]);
@@ -11,21 +10,17 @@ const App = () => {
 
   useEffect(() => {
     setLoading(true);
-    setTimeout(() => {
-      setItems(getDummyData(10));
-      setLoading(false);
-    }, 500);
+    getAllData()
+      .then((res) => {
+        setItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
-
-  // useEffect(() => {
-  //   getAllData()
-  //     .then((res) => {
-  //       setItems(res.data.slice(0, 10));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   return (
     <>
