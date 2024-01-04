@@ -14,7 +14,7 @@ const App = () => {
     setTimeout(() => {
       setItems(getDummyData(10));
       setLoading(false);
-    }, 1000);
+    }, 500);
   }, []);
 
   // useEffect(() => {

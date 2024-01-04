@@ -1,32 +1,113 @@
+import clsx from "clsx";
 import PropTypes from "prop-types";
 
-const Pagination = () => {
+const Pagination = ({
+  className,
+  currentPage,
+  totalItems,
+  itemsPerPage,
+  totalPickNumber,
+  itemsPerPageHandler,
+  prevHandler,
+  nextHandler,
+  pickHandler,
+  ...rest
+}) => {
+  const totalPage = Math.ceil(totalItems / itemsPerPage);
+
+  // generate page numbers with totalPickNumber and currentPage in the middle
+  const pageNumbers = [];
+  if (totalPage <= totalPickNumber) {
+    for (let i = 1; i <= totalPage; i++) {
+      pageNumbers.push(i);
+    }
+  } else {
+    const halfTotalPickNumber = Math.ceil(totalPickNumber / 2);
+    const startPageNumber =
+      currentPage <= halfTotalPickNumber
+        ? 1
+        : currentPage + halfTotalPickNumber > totalPage
+        ? totalPage - totalPickNumber + 1
+        : currentPage - halfTotalPickNumber + 1;
+    const endPageNumber =
+      currentPage <= halfTotalPickNumber
+        ? totalPickNumber
+        : currentPage + halfTotalPickNumber > totalPage
+        ? totalPage
+        : currentPage + halfTotalPickNumber - 1;
+
+    for (let i = startPageNumber; i <= endPageNumber; i++) {
+      pageNumbers.push(i);
+    }
+  }
+
+  const handlePick = (value) => {
+    pickHandler(value);
+  };
+
+  const changeItemsPerPageHandler = (e) => {
+    itemsPerPageHandler(parseInt(e.target.value));
+  };
+
   return (
-    <div className="flex flex-wrap flex-col sm:flex-row gap-y-4 items-center sm:justify-between mb-3 ">
+    <div
+      className={clsx(
+        "flex flex-wrap flex-col sm:flex-row gap-y-4 items-center sm:justify-between mb-3",
+        className
+      )}
+      {...rest}
+    >
       <div className="flex gap-2 items-center">
         Show
-        <select className="px-3 py-1 text-sm border font-semibold border-white rounded-lg transition-colors duration-200">
-          <option>10</option>
-          <option>20</option>
-          <option>30</option>
+        <select
+          onChange={changeItemsPerPageHandler}
+          className="px-3 py-1 text-sm border font-semibold border-white rounded-lg transition-colors duration-200"
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={30}>30</option>
+          <option value={40}>40</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
         </select>
         entries
       </div>
       <div className="flex gap-1">
-        <button className="px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200">
+        <button
+          onClick={prevHandler}
+          disabled={currentPage === 1}
+          className={clsx(
+            "px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200",
+            currentPage === 1 &&
+              "hover:bg-dark text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
+          )}
+        >
           Prev
         </button>
         <div className="flex gap-1">
-          {[...Array(5)].map((_, i) => (
+          {pageNumbers.map((pageNumber) => (
             <button
-              key={i}
-              className="px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200"
+              key={pageNumber}
+              onClick={() => handlePick(pageNumber)}
+              className={clsx(
+                "px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200",
+                currentPage === pageNumber && "bg-white text-dark"
+              )}
             >
-              {i + 1}
+              {pageNumber}
             </button>
           ))}
         </div>
-        <button className="px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200">
+        <button
+          onClick={nextHandler}
+          disabled={currentPage === totalPage}
+          className={clsx(
+            "px-3 py-1 text-sm border font-semibold border-white rounded-lg hover:bg-white hover:text-dark transition-colors duration-200",
+            currentPage === totalPage &&
+              "hover:bg-dark text-white/50 hover:text-white/50 border-white/50 cursor-not-allowed"
+          )}
+        >
           Next
         </button>
       </div>
@@ -34,6 +115,16 @@ const Pagination = () => {
   );
 };
 
-Pagination.propTypes = {};
+Pagination.propTypes = {
+  className: PropTypes.string,
+  currentPage: PropTypes.number,
+  totalItems: PropTypes.number,
+  totalPickNumber: PropTypes.number,
+  itemsPerPage: PropTypes.number,
+  itemsPerPageHandler: PropTypes.func,
+  prevHandler: PropTypes.func,
+  nextHandler: PropTypes.func,
+  pickHandler: PropTypes.func,
+};
 
 export default Pagination;
